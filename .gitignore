@@ -1,0 +1,27 @@
+# 🔌 Packer's auto-generated compiled file
+plugin/packer_compiled.lua
+
+# 💾 Swap files (from editing sessions)
+*.swp
+*.swo
+
+# 🧠 Undo history
+*.un~
+*.tmp
+
+# 🗂 Backup files
+*~
+
+# 📂 Lua bytecode (just in case)
+luac.out
+
+# 🔍 LSP logs, diagnostics, etc.
+*.log
+
+# 🗂 Session or layout files (if you use something like persistence.nvim)
+*.vim
+*.ses
+
+# 🧪 Possibly generated .DS_Store files on macOS
+.DS_Store
+
