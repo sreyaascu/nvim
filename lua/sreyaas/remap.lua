@@ -27,3 +27,22 @@ vim.keymap.set("n", "<leader>y", "\"+y")
 vim.keymap.set("v", "<leader>y", "\"+y")
 vim.keymap.set("n", "<leader>Y", "\"+y")
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+-- Wrap selected lines in double quotes
+vim.api.nvim_create_user_command("WrapQuotes", function(opts)
+  local start_line = opts.line1
+  local end_line = opts.line2
+  vim.cmd(start_line .. "," .. end_line .. [[s/^/"/]])
+  vim.cmd(start_line .. "," .. end_line .. [[s/$/"/]])
+end, { range = true })
+
+-- Unwrap quotes from selected lines
+vim.api.nvim_create_user_command("UnwrapQuotes", function(opts)
+  local start_line = opts.line1
+  local end_line = opts.line2
+  vim.cmd(start_line .. "," .. end_line .. [[s/^"//]])
+  vim.cmd(start_line .. "," .. end_line .. [[s/"$//]])
+end, { range = true })
+
+-- Optional keybindings in visual mode
+vim.keymap.set("v", "<leader>qw", ":WrapQuotes<CR>", { desc = "Wrap in quotes" })
+vim.keymap.set("v", "<leader>uq", ":UnwrapQuotes<CR>", { desc = "Unwrap quotes" })
