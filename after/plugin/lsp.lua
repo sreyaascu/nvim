@@ -1,4 +1,3 @@
-
 -- Add cmp_nvim_lsp capabilities settings to lspconfig
 -- This should be executed before you configure any language server
 local lspconfig_defaults = require('lspconfig').util.default_config
@@ -39,6 +38,7 @@ require("mason-lspconfig").setup({
     "pyright",
     "clangd",
     "jdtls",
+    -- NOTE: dartls is not supported by mason, so we set it up manually below
   },
   automatic_installation = true,
 })
@@ -58,7 +58,7 @@ lspconfig.lua_ls.setup({
 })
 
 -- Setup remaining servers with error-check
-local servers = { "ts_ls", "eslint", "pyright", "clangd", "jdtls" }
+local servers = { "tsserver", "eslint", "pyright", "clangd", "jdtls" }
 
 for _, server in ipairs(servers) do
   local config = lspconfig[server]
@@ -68,6 +68,18 @@ for _, server in ipairs(servers) do
     vim.notify("⚠️ LSP config for '" .. server .. "' not found!", vim.log.levels.WARN)
   end
 end
+
+-- ✅ MANUAL SETUP FOR DART LSP
+lspconfig.dartls.setup({
+  cmd = { "/home/sreyaas/flutter/bin/dart", "language-server", "--protocol=lsp" },
+  filetypes = { "dart" },
+  init_options = {
+    closingLabels = true,
+    outline = true,
+    flutterOutline = true,
+  },
+})
+
 -- Optional: Customize diagnostic signs (icons)
 local signs = { Error = " ", Warn = " ", Hint = "󰌵", Info = " " }
 for type, icon in pairs(signs) do
@@ -78,7 +90,7 @@ end
 -- Configure diagnostics display
 vim.diagnostic.config({
   virtual_text = false,  -- disable inline errors
-  signs = false,          -- keep signs in the gutter (left of numbers)
+  signs = false,         -- keep signs in the gutter (left of numbers)
   underline = true,
   update_in_insert = false,
   severity_sort = true,
