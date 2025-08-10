@@ -33,7 +33,6 @@ require("mason").setup()
 require("mason-lspconfig").setup({
   ensure_installed = {
     "lua_ls",
-    "ts_ls",
     "eslint",
     "pyright",
     "clangd",
@@ -58,7 +57,7 @@ lspconfig.lua_ls.setup({
 })
 
 -- Setup remaining servers with error-check
-local servers = { "tsserver", "eslint", "pyright", "clangd", "jdtls" }
+local servers = { "ts_ls", "eslint", "pyright", "clangd", "jdtls" }
 
 for _, server in ipairs(servers) do
   local config = lspconfig[server]
