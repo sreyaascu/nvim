@@ -12,16 +12,32 @@ return require('packer').startup(function(use)
 	  -- or                            , branch = '0.1.x',
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
-  use({
-	  'rose-pine/neovim', 
-	  as = 'rose-pine',
-	  config = function()
-		  vim.cmd('colorscheme rose-pine')
-	  end
+use {
+    'rose-pine/neovim',
+    as = 'rose-pine',
+    config = function()
+        require("rose-pine").setup({
+            variant = "auto", -- auto, main, moon, or dawn
+            dark_variant = "main", -- main, moon, or dawn
+            dim_inactive_windows = false,
+            extend_background_behind_borders = true,
 
+            enable = {
+                terminal = true,
+                legacy_highlights = true,
+                migrations = true,
+            },
 
-})
+            styles = {
+                bold = true,
+                italic = false, -- Disable italics completely
+                transparency = false,
+            },
+        })
 
+        vim.cmd("colorscheme rose-pine")
+    end
+}
 
 use( 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})  
 use('ThePrimeagen/harpoon')
