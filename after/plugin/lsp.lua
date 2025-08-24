@@ -82,7 +82,9 @@ lspconfig.dartls.setup({
 
 -- Diagnostics display settings
 vim.diagnostic.config({
-  virtual_text = true,
+  virtual_text ={
+      spacing = 6,
+  } ,
   signs = false,
   underline = true,
   update_in_insert = false,
