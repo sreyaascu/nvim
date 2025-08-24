@@ -38,7 +38,8 @@ use {
         vim.cmd("colorscheme rose-pine")
     end
 }
-
+use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+use ('ThePrimeagen/vim-be-good')
 use( 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})  
 use('ThePrimeagen/harpoon')
 use('mbbill/undotree')
