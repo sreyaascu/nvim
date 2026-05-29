@@ -19,7 +19,7 @@ use {
         require("rose-pine").setup({
             variant = "auto", -- auto, main, moon, or dawn
             dark_variant = "main", -- main, moon, or dawn
-            dim_inactive_windows = false,
+            dim_inactive_windows = false, -- dims inactive windows
             extend_background_behind_borders = true,
 
             enable = {
@@ -40,37 +40,45 @@ use {
 }
 use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 use ('ThePrimeagen/vim-be-good')
-use( 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})  
 use('ThePrimeagen/harpoon')
+use {
+	"nvim-treesitter/nvim-treesitter",
+	run = ":TSUpdate",
+	branch = "master",
+}
 use('mbbill/undotree')
 use('tpope/vim-fugitive')
 use ('mfussenegger/nvim-jdtls')
-use({
-  'plasticboy/vim-markdown',
-  requires = { 'godlygeek/tabular' },
-})
+--use({
+ -- 'plasticboy/vim-markdown',
+  --requires = { 'godlygeek/tabular' },
+--})
+--use {
+    --"github/copilot.vim"
+--}
 
+--use {
+ -- "sphamba/smear-cursor.nvim",
+  --config = function()
+   -- require("smear_cursor").setup({
+    --  cursor_color = "#ffffff",
 
+     -- stiffness = 0.8,
+      --trailing_stiffness = 0.6,
+      --stiffness_insert_mode = 0.7,
+      --trailing_stiffness_insert_mode = 0.7,
+      --damping = 0.95,
+      --damping_insert_mode = 0.95,
+      --distance_stop_animating = 0.5,
+    --})
+  --end,
+--}
 use {
-  "sphamba/smear-cursor.nvim",
-  config = function()
-    require("smear_cursor").setup({
-      cursor_color = "#ffffff",
-
-      stiffness = 0.8,
-      trailing_stiffness = 0.6,
-      stiffness_insert_mode = 0.7,
-      trailing_stiffness_insert_mode = 0.7,
-      damping = 0.95,
-      damping_insert_mode = 0.95,
-      distance_stop_animating = 0.5,
-    })
-  end,
+    "numToStr/Comment.nvim",
+    opts = {},
 }
 
-
-
-
+use { "scottmckendry/cyberdream.nvim" }
 use {
 	'VonHeikemen/lsp-zero.nvim',
 	requires = {

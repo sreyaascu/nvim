@@ -2,14 +2,14 @@
 -- LSP + Mason Setup (Neovim 0.11+)
 -- =========================================
 
--- Add cmp_nvim_lsp capabilities
+-- cmp capabilities
 local capabilities = vim.tbl_deep_extend(
   "force",
   vim.lsp.protocol.make_client_capabilities(),
   require("cmp_nvim_lsp").default_capabilities()
 )
 
--- Keymaps for LSP actions
+-- LSP keymaps
 vim.api.nvim_create_autocmd("LspAttach", {
   desc = "LSP keymaps",
   callback = function(event)
@@ -32,41 +32,56 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 -- Mason setup
 require("mason").setup()
-local mason_lspconfig = require("mason-lspconfig")
 
-mason_lspconfig.setup({
+require("mason-lspconfig").setup({
   ensure_installed = {
     "lua_ls",
-    "eslint",
     "pyright",
     "clangd",
+    "eslint",
     "jdtls",
+    "ts_ls",
   },
   automatic_installation = true,
 })
 
--- Alias for new Neovim LSP config API
-local lspconfig_new = vim.lsp.config
+-- =========================================
+-- Define LSP configs
+-- =========================================
 
--- Lua LSP
-lspconfig_new("lua_ls", {
+vim.lsp.config("lua_ls", {
   capabilities = capabilities,
   settings = {
     Lua = {
-      diagnostics = { globals = { "vim" } },
+      diagnostics = {
+        globals = { "vim" },
+      },
     },
   },
 })
 
--- Setup all other Mason-installed servers except lua_ls
-for _, server_name in ipairs(mason_lspconfig.get_installed_servers()) do
-  if server_name ~= "lua_ls" then
-    lspconfig_new(server_name, { capabilities = capabilities })
-  end
-end
+vim.lsp.config("pyright", {
+  capabilities = capabilities,
+})
 
--- Manual Dart setup
-lspconfig_new("dartls", {
+vim.lsp.config("clangd", {
+  capabilities = capabilities,
+})
+
+vim.lsp.config("eslint", {
+  capabilities = capabilities,
+})
+
+vim.lsp.config("jdtls", {
+  capabilities = capabilities,
+})
+
+vim.lsp.config("ts_ls", {
+  capabilities = capabilities,
+})
+
+vim.lsp.config("dartls", {
+  capabilities = capabilities,
   cmd = { "/home/sreyaas/flutter/bin/dart", "language-server", "--protocol=lsp" },
   filetypes = { "dart" },
   init_options = {
@@ -76,12 +91,40 @@ lspconfig_new("dartls", {
   },
 })
 
--- Diagnostics display settings
+-- =========================================
+-- Enable LSPs
+-- =========================================
+
+vim.lsp.enable("lua_ls")
+vim.lsp.enable("pyright")
+vim.lsp.enable("clangd")
+vim.lsp.enable("eslint")
+vim.lsp.enable("jdtls")
+vim.lsp.enable("ts_ls")
+vim.lsp.enable("dartls")
+
+-- =========================================
+-- Diagnostics UI
+-- =========================================
+local signs = {
+  Error = " ",
+  Warn  = " ",
+  Hint  = "󰠠 ",
+  Info  = " ",
+}
+
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, {
+    text = icon,
+    texthl = hl,
+    numhl = "",
+  })
+end
 vim.diagnostic.config({
-  virtual_text = { spacing = 2 }, -- adds gap between code and error message
-  signs = false,
+  virtual_text = true,
+  signs = true,
   underline = true,
   update_in_insert = false,
-  severity_sort = false,
+  severity_sort = true,
 })
-

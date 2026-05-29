@@ -1,6 +1,5 @@
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>pv",vim.cmd.Ex)
-
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 -- Arrow key replacements in insert mode
@@ -49,3 +48,19 @@ end, { range = true })
 -- Optional keybindings in visual mode
 vim.keymap.set("v", "<leader>qw", ":WrapQuotes<CR>", { desc = "Wrap in quotes" })
 vim.keymap.set("v", "<leader>uq", ":UnwrapQuotes<CR>", { desc = "Unwrap quotes" })
+
+--vim.g.copilot_no_tab_map = true
+--vim.keymap.set("i", "<C-y>", 'copilot#Accept("\\<CR>")', {
+  --expr = true,
+  --replace_keycodes = false,
+--})
+
+
+--Go formatting
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*.go",
+    callback = function()
+        vim.lsp.buf.format()
+    end,
+})
+vim.opt.guicursor = "a:block"
